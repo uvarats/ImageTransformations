@@ -36,18 +36,21 @@
             this.imgOpenDialog = new System.Windows.Forms.OpenFileDialog();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.saveButton = new System.Windows.Forms.Button();
+            this.angleUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label4 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.beforeScaleInfoBox = new System.Windows.Forms.GroupBox();
+            this.filesizeBefore = new System.Windows.Forms.Label();
+            this.dimensionBefore = new System.Windows.Forms.Label();
             this.afterScaleInfoBox = new System.Windows.Forms.GroupBox();
+            this.saveButton = new System.Windows.Forms.Button();
+            this.filesizeAfter = new System.Windows.Forms.Label();
+            this.dimensionAfter = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.algoSelectComboBox = new System.Windows.Forms.ComboBox();
             this.imgSaveDialog = new System.Windows.Forms.SaveFileDialog();
-            this.dimensionBefore = new System.Windows.Forms.Label();
-            this.dimensionAfter = new System.Windows.Forms.Label();
-            this.filesizeBefore = new System.Windows.Forms.Label();
-            this.filesizeAfter = new System.Windows.Forms.Label();
+            this.rotateButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.xScaleValue)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.yScaleValue)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -55,6 +58,7 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.angleUpDown)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
@@ -120,7 +124,9 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.saveButton);
+            this.splitContainer1.Panel2.Controls.Add(this.rotateButton);
+            this.splitContainer1.Panel2.Controls.Add(this.angleUpDown);
+            this.splitContainer1.Panel2.Controls.Add(this.label4);
             this.splitContainer1.Panel2.Controls.Add(this.groupBox1);
             this.splitContainer1.Panel2.Controls.Add(this.label1);
             this.splitContainer1.Panel2.Controls.Add(this.algoSelectComboBox);
@@ -142,15 +148,21 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // saveButton
+            // angleUpDown
             // 
-            this.saveButton.Location = new System.Drawing.Point(405, 38);
-            this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(113, 29);
-            this.saveButton.TabIndex = 12;
-            this.saveButton.Text = "Сохранить";
-            this.saveButton.UseVisualStyleBackColor = true;
-            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            this.angleUpDown.Location = new System.Drawing.Point(328, 40);
+            this.angleUpDown.Name = "angleUpDown";
+            this.angleUpDown.Size = new System.Drawing.Size(150, 27);
+            this.angleUpDown.TabIndex = 13;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(322, 16);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(156, 20);
+            this.label4.TabIndex = 12;
+            this.label4.Text = "Поворот (в градусах)";
             // 
             // groupBox1
             // 
@@ -192,8 +204,27 @@
             this.beforeScaleInfoBox.TabStop = false;
             this.beforeScaleInfoBox.Text = "До интерполяциии";
             // 
+            // filesizeBefore
+            // 
+            this.filesizeBefore.AutoSize = true;
+            this.filesizeBefore.Location = new System.Drawing.Point(6, 43);
+            this.filesizeBefore.Name = "filesizeBefore";
+            this.filesizeBefore.Size = new System.Drawing.Size(99, 20);
+            this.filesizeBefore.TabIndex = 1;
+            this.filesizeBefore.Text = "filesizeBefore";
+            // 
+            // dimensionBefore
+            // 
+            this.dimensionBefore.AutoSize = true;
+            this.dimensionBefore.Location = new System.Drawing.Point(6, 23);
+            this.dimensionBefore.Name = "dimensionBefore";
+            this.dimensionBefore.Size = new System.Drawing.Size(122, 20);
+            this.dimensionBefore.TabIndex = 0;
+            this.dimensionBefore.Text = "dimensionBefore";
+            // 
             // afterScaleInfoBox
             // 
+            this.afterScaleInfoBox.Controls.Add(this.saveButton);
             this.afterScaleInfoBox.Controls.Add(this.filesizeAfter);
             this.afterScaleInfoBox.Controls.Add(this.dimensionAfter);
             this.afterScaleInfoBox.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -203,6 +234,34 @@
             this.afterScaleInfoBox.TabIndex = 1;
             this.afterScaleInfoBox.TabStop = false;
             this.afterScaleInfoBox.Text = "После интерполяции";
+            // 
+            // saveButton
+            // 
+            this.saveButton.Location = new System.Drawing.Point(134, 114);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(113, 29);
+            this.saveButton.TabIndex = 12;
+            this.saveButton.Text = "Сохранить";
+            this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            // 
+            // filesizeAfter
+            // 
+            this.filesizeAfter.AutoSize = true;
+            this.filesizeAfter.Location = new System.Drawing.Point(6, 43);
+            this.filesizeAfter.Name = "filesizeAfter";
+            this.filesizeAfter.Size = new System.Drawing.Size(88, 20);
+            this.filesizeAfter.TabIndex = 2;
+            this.filesizeAfter.Text = "filesizeAfter";
+            // 
+            // dimensionAfter
+            // 
+            this.dimensionAfter.AutoSize = true;
+            this.dimensionAfter.Location = new System.Drawing.Point(6, 23);
+            this.dimensionAfter.Name = "dimensionAfter";
+            this.dimensionAfter.Size = new System.Drawing.Size(111, 20);
+            this.dimensionAfter.TabIndex = 1;
+            this.dimensionAfter.Text = "dimensionAfter";
             // 
             // label1
             // 
@@ -222,41 +281,14 @@
             this.algoSelectComboBox.Size = new System.Drawing.Size(250, 28);
             this.algoSelectComboBox.TabIndex = 9;
             // 
-            // dimensionBefore
+            // rotateButton
             // 
-            this.dimensionBefore.AutoSize = true;
-            this.dimensionBefore.Location = new System.Drawing.Point(6, 23);
-            this.dimensionBefore.Name = "dimensionBefore";
-            this.dimensionBefore.Size = new System.Drawing.Size(122, 20);
-            this.dimensionBefore.TabIndex = 0;
-            this.dimensionBefore.Text = "dimensionBefore";
-            // 
-            // dimensionAfter
-            // 
-            this.dimensionAfter.AutoSize = true;
-            this.dimensionAfter.Location = new System.Drawing.Point(6, 23);
-            this.dimensionAfter.Name = "dimensionAfter";
-            this.dimensionAfter.Size = new System.Drawing.Size(111, 20);
-            this.dimensionAfter.TabIndex = 1;
-            this.dimensionAfter.Text = "dimensionAfter";
-            // 
-            // filesizeBefore
-            // 
-            this.filesizeBefore.AutoSize = true;
-            this.filesizeBefore.Location = new System.Drawing.Point(6, 43);
-            this.filesizeBefore.Name = "filesizeBefore";
-            this.filesizeBefore.Size = new System.Drawing.Size(99, 20);
-            this.filesizeBefore.TabIndex = 1;
-            this.filesizeBefore.Text = "filesizeBefore";
-            // 
-            // filesizeAfter
-            // 
-            this.filesizeAfter.AutoSize = true;
-            this.filesizeAfter.Location = new System.Drawing.Point(6, 43);
-            this.filesizeAfter.Name = "filesizeAfter";
-            this.filesizeAfter.Size = new System.Drawing.Size(88, 20);
-            this.filesizeAfter.TabIndex = 2;
-            this.filesizeAfter.Text = "filesizeAfter";
+            this.rotateButton.Location = new System.Drawing.Point(328, 72);
+            this.rotateButton.Name = "rotateButton";
+            this.rotateButton.Size = new System.Drawing.Size(94, 29);
+            this.rotateButton.TabIndex = 14;
+            this.rotateButton.Text = "Повернуть";
+            this.rotateButton.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -275,6 +307,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.angleUpDown)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
@@ -309,5 +342,8 @@
         private Label dimensionBefore;
         private Label filesizeAfter;
         private Label dimensionAfter;
+        private NumericUpDown angleUpDown;
+        private Label label4;
+        private Button rotateButton;
     }
 }
