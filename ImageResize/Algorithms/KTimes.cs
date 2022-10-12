@@ -10,60 +10,88 @@ namespace ImageResize.Algorithms
 {
     internal class KTimes : ScalingAlgorithm
     {
-        private float Lerp(float s, float e, float t)
-        {
-            float result = s + (e - s) * t;
-            return result;
-        }
         public Image Scale(Bitmap self, float scaleX, float scaleY)
         {
-            int newWidth = (int)(self.Width * scaleX);
-            int newHeight = (int)(self.Height * scaleY);
-            Bitmap result = new Bitmap(newWidth, self.Height, self.PixelFormat);
-            FastBitmap fastNew = new FastBitmap(result);
-            FastBitmap fastOld = new FastBitmap(self);
+            Bitmap yScaled = ScaleY(self, scaleY);
+            Bitmap xScaled = ScaleX(yScaled, scaleX);
+            return xScaled;
+        }
 
-            for(int x = 0; x < newWidth; x++)
+        private Bitmap ScaleX(Bitmap bmp, float scaleX)
+        {
+            int newWidth = (int)(bmp.Width * scaleX);
+            Bitmap resized = new Bitmap(newWidth, bmp.Height, bmp.PixelFormat);
+
+            FastBitmap fastOrig = new FastBitmap(bmp);
+            FastBitmap fast = new FastBitmap(resized);
+
+            for (int y = 0; y < bmp.Height; y++)
             {
-                for (int y = 0; y < self.Height; y++)
+                for (int x = 0; x < bmp.Width - 1; x++)
                 {
-                    float gx = (float)x / newWidth * (self.Width - 1);
-                    int gxi = (int)gx;
+                    Color val1 = fastOrig.Get(x, y);
+                    Color val2 = fastOrig.Get(x + 1, y);
+                    int diffR = val2.R - val1.R;
+                    int diffG = val2.G - val1.G;
+                    int diffB = val2.B - val1.B;
+                    int scaleC = ((int)((x + 1) * scaleX) - (int)(x * scaleX));
 
-                    Color x0 = fastOld.Get(gxi, y);
-                    Color x1 = fastOld.Get(gxi + 1, y);
+                    scaleC = scaleC == 0 ? 1 : scaleC;
+                    float opR = diffR / scaleC;
+                    float opG = diffG / scaleC;
+                    float opB = diffB / scaleC;
+                    float currentR = val1.R;
+                    float currentG = val1.G;
+                    float currentB = val1.B;
 
-                    int red = (int)Lerp(x0.R, x1.R, gx - gxi);
-                    int green = (int)Lerp(x0.G, x1.G, gx - gxi);
-                    int blue = (int)Lerp(x0.B, x1.B, gx - gxi);
-                    Color newP = Color.FromArgb(red, green, blue);
-                    fastNew.Set(x, y, newP);
+                    for (int i = (int)(x * scaleX); i < (int)((x + 1) * scaleX); i++)
+                    {
+                        currentR += opR;
+                        currentG += opG;
+                        currentB += opB;
+                        fast.Set(i, y, Color.FromArgb((int)currentR, (int)currentB, (int)currentG));
+                    }
                 }
             }
-            fastOld = fastNew;
-            Bitmap xyScaled = new Bitmap(newWidth, newHeight, fastNew.BaseBitmap.PixelFormat);
-            FastBitmap fastResult = new FastBitmap(xyScaled);
-            
+            return fast.BaseBitmap;
+        }
 
-            for (int x = 0; x < newWidth; x++)
+        private Bitmap ScaleY(Bitmap bmp, float scaleY)
+        {
+            int newHeight = (int)(bmp.Height * scaleY);
+            Bitmap resized = new Bitmap(bmp.Width, newHeight);
+
+            FastBitmap fastOrig = new FastBitmap(bmp);
+            FastBitmap fast = new FastBitmap(resized);
+
+            for (int x = 0; x < bmp.Width; x++)
             {
-                for (int y = 0; y < newHeight; y++)
+                for (int y = 0; y < bmp.Height - 1; y++)
                 {
-                    float gy = (float)y / newHeight * (self.Height - 1);
-                    int gyi = (int)gy;
+                    Color val1 = fastOrig.Get(x, y);
+                    Color val2 = fastOrig.Get(x, y + 1);
+                    int diffR = val2.R - val1.R;
+                    int diffG = val2.G - val1.G;
+                    int diffB = val2.B - val1.B;
+                    int scaleC = ((int)((y + 1) * scaleY) - (int)(y * scaleY));
+                    scaleC = scaleC == 0 ? 1 : scaleC;
+                    float opR = diffR / scaleC;
+                    float opG = diffG / scaleC;
+                    float opB = diffB / scaleC;
+                    float currentR = val1.R;
+                    float currentG = val1.G;
+                    float currentB = val1.B;
 
-                    Color y0 = fastOld.Get(x, gyi);
-                    Color y1 = fastOld.Get(x, gyi + 1);
-
-                    int red = (int)Lerp(y0.R, y1.R, gy - gyi);
-                    int green = (int)Lerp(y0.G, y1.G, gy - gyi);
-                    int blue = (int)Lerp(y0.B, y1.B, gy - gyi);
-                    Color newP = Color.FromArgb(red, green, blue);
-                    fastResult.Set(x, y, newP);
+                    for (int i = (int)(y * scaleY); i < (int)((y + 1) * scaleY); i++)
+                    {
+                        currentR += opR;
+                        currentG += opG;
+                        currentB += opB;
+                        fast.Set(x, i, Color.FromArgb((int)currentR, (int)currentB, (int)currentG));
+                    }
                 }
             }
-
-            return fastResult.BaseBitmap;
+            return fast.BaseBitmap;
         }
         public override string ToString()
         {
