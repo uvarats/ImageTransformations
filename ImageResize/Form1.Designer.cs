@@ -36,6 +36,7 @@
             this.imgOpenDialog = new System.Windows.Forms.OpenFileDialog();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.rotateButton = new System.Windows.Forms.Button();
             this.angleUpDown = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -50,7 +51,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.algoSelectComboBox = new System.Windows.Forms.ComboBox();
             this.imgSaveDialog = new System.Windows.Forms.SaveFileDialog();
-            this.rotateButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.xScaleValue)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.yScaleValue)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -148,9 +148,29 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
+            // rotateButton
+            // 
+            this.rotateButton.Location = new System.Drawing.Point(328, 72);
+            this.rotateButton.Name = "rotateButton";
+            this.rotateButton.Size = new System.Drawing.Size(94, 29);
+            this.rotateButton.TabIndex = 14;
+            this.rotateButton.Text = "Повернуть";
+            this.rotateButton.UseVisualStyleBackColor = true;
+            this.rotateButton.Click += new System.EventHandler(this.rotateButton_Click);
+            // 
             // angleUpDown
             // 
             this.angleUpDown.Location = new System.Drawing.Point(328, 40);
+            this.angleUpDown.Maximum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            0});
+            this.angleUpDown.Minimum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            -2147483648});
             this.angleUpDown.Name = "angleUpDown";
             this.angleUpDown.Size = new System.Drawing.Size(150, 27);
             this.angleUpDown.TabIndex = 13;
@@ -280,15 +300,6 @@
             this.algoSelectComboBox.Name = "algoSelectComboBox";
             this.algoSelectComboBox.Size = new System.Drawing.Size(250, 28);
             this.algoSelectComboBox.TabIndex = 9;
-            // 
-            // rotateButton
-            // 
-            this.rotateButton.Location = new System.Drawing.Point(328, 72);
-            this.rotateButton.Name = "rotateButton";
-            this.rotateButton.Size = new System.Drawing.Size(94, 29);
-            this.rotateButton.TabIndex = 14;
-            this.rotateButton.Text = "Повернуть";
-            this.rotateButton.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
