@@ -71,5 +71,13 @@ namespace ImageResize
             string fileName = imgSaveDialog.FileName;
             pictureBox1.Image.Save(fileName);
         }
+
+        private void rotateButton_Click(object sender, EventArgs e)
+        {
+            Rotation r = new Rotation();
+            float angle = (float)angleUpDown.Value;
+            Image res = r.Rotate(img, angle);
+            pictureBox1.Image = res;
+        }
     }
 }
