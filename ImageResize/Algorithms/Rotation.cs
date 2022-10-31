@@ -40,20 +40,27 @@ namespace ImageResize.Algorithms
         // Обратная билинейная интерполяция
         public Bitmap rotateImageOri(Bitmap Image, double degree)
         {
-            int Wo = Image.Width;
-            int Lo = Image.Height;
+            int Wo = Image.Width;   // width original
+            int Lo = Image.Height;  // height original
 
             // Округление используется для определения размера изображения после поворота.
-            double Wt = (int)(Math.Abs(Wo * Math.Cos(Math.PI * (degree / 180))) + Math.Abs(Lo * Math.Sin(Math.PI * (degree / 180))) + 0.5);
-            double Lt = (int)(Math.Abs(Wo * Math.Sin(Math.PI * (degree / 180))) + Math.Abs(Lo * Math.Cos(Math.PI * (degree / 180))) + 0.5);
+            double Wt = (int)(Math.Abs(Wo * Math.Cos(Math.PI * (degree / 180))) + 
+                Math.Abs(Lo * Math.Sin(Math.PI * (degree / 180))) + 0.5);
+
+            double Lt = (int)(Math.Abs(Wo * Math.Sin(Math.PI * (degree / 180))) + 
+                Math.Abs(Lo * Math.Cos(Math.PI * (degree / 180))) + 0.5);
             Bitmap rotateImageData = new Bitmap((int)Wt, (int)Lt, PixelFormat.Format24bppRgb);
             
 
-            //x1, y1 - координаты повернутого изображения, x и y - координаты оригинального изображения
+            // x1, y1 - координаты повернутого изображения, x и y - координаты оригинального изображения
             for (int y1 = 0; y1 < Lt; y1++)
             {
                 for (int x1 = 0; x1 < Wt; x1++)
                 {
+                    /** 
+                     * применяются обычные формулы поворота, при этом вводится поправка,
+                     * которая смещает ось координат в центр изображения
+                    **/
                     double x = x1 * Math.Cos(Math.PI * (degree / 180)) + y1 * Math.Sin(Math.PI * (degree / 180)) - (Wt - 1) / 2.0 * Math.Cos(Math.PI * (degree / 180)) - (Lt - 1) / 2.0 * Math.Sin(Math.PI * (degree / 180)) + (Wo - 1) / 2.0;
                     double y = -x1 * Math.Sin(Math.PI * (degree / 180)) + y1 * Math.Cos(Math.PI * (degree / 180)) + (Wt - 1) / 2.0 * Math.Sin(Math.PI * (degree / 180)) - (Lt - 1) / 2.0 * Math.Cos(Math.PI * (degree / 180)) + (Lo - 1) / 2.0;
                     if (-0.001 <= x & x <= (Wo - 1) & -0.001 <= y & y <= (Lo - 1))
@@ -75,16 +82,19 @@ namespace ImageResize.Algorithms
                         double yb34 = b3 - y;
 
                         if (xa13 != 0 & xa24 != 0 & yb12 != 0 & yb34 != 0)
-                        {//对应回原图是非整数坐标，双线性插值。
+                        {
                             byte R1 = Image.GetPixel(a1, b1).R;
                             byte G1 = Image.GetPixel(a1, b1).G;
                             byte B1 = Image.GetPixel(a1, b1).B;
+
                             byte R2 = Image.GetPixel(a2, b2).R;
                             byte G2 = Image.GetPixel(a2, b2).G;
                             byte B2 = Image.GetPixel(a2, b2).B;
+
                             byte R3 = Image.GetPixel(a3, b3).R;
                             byte G3 = Image.GetPixel(a3, b3).G;
                             byte B3 = Image.GetPixel(a3, b3).B;
+
                             byte R4 = Image.GetPixel(a4, b4).R;
                             byte G4 = Image.GetPixel(a4, b4).G;
                             byte B4 = Image.GetPixel(a4, b4).B;
@@ -96,7 +106,7 @@ namespace ImageResize.Algorithms
                             RGB = Color.FromArgb(R, G, B);
                         }
                         else
-                        {//对应回原图是整数坐标,直接取Pixel。
+                        {
                             RGB = Image.GetPixel(a1, b1);
                         }
                         rotateImageData.SetPixel(x1, y1, RGB);

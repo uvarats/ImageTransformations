@@ -31,10 +31,41 @@ namespace ImageResize.Algorithms
             {
                 for (int y = 0; y < newHeight; y++)
                 {
-                    float gx = (float)x / newWidth * (self.Width - 1);
-                    float gy = (float)y / newHeight * (self.Height - 1);
+                    float gx = (float)x / scaleX;
+                    float gy = (float)y / scaleY;
                     int gxi = (int)gx;
                     int gyi = (int)gy;
+
+                    if (gxi == self.Width - 1 && gyi == self.Height - 1)
+                    {
+                        fbNew.Set(x, y, fbSelf.Get(gxi, gyi));
+                        continue;
+                    }
+
+                    if (gyi == self.Height - 1)
+                    {
+                        Color c00_0 = fbSelf.Get(gxi, gyi);
+                        Color c10_1 = fbSelf.Get(gxi + 1, gyi);
+
+                        int r1 = (int)Lerp(c00_0.R, c10_1.R, gx - gxi);
+                        int g1 = (int)Lerp(c00_0.G, c10_1.G, gx - gxi);
+                        int b1 = (int)Lerp(c00_0.B, c10_1.B, gx - gxi);
+                        fbNew.Set(x, y, Color.FromArgb(r1, g1, b1));
+                        continue;
+                    }
+
+                    if (gxi == self.Width - 1)
+                    {
+                        Color c00_1 = fbSelf.Get(gxi, gyi);
+                        Color c01_1 = fbSelf.Get(gxi, gyi + 1);
+
+                        int r2 = (int)Lerp(c00_1.R, c01_1.R, gy - gyi);
+                        int g2 = (int)Lerp(c00_1.G, c01_1.G, gy - gyi);
+                        int b2 = (int)Lerp(c00_1.B, c01_1.B, gy - gyi);
+                        fbNew.Set(x, y, Color.FromArgb(r2, g2, b2));
+                        continue;
+                    }
+
                     Color c00 = fbSelf.Get(gxi, gyi);
                     Color c10 = fbSelf.Get(gxi + 1, gyi);
                     Color c01 = fbSelf.Get(gxi, gyi + 1);
